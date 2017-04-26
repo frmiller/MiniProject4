@@ -5,3 +5,9 @@ date: "April 26, 2017"
 output: html_document
 ---
 
+```{r, message = FALSE}
+url<-"http://wsgw.mass.gov/data/gispub/shape/contours5k/hp214.zip"
+download.file(url,destfile=basename(url))
+unzip("hp214.zip",exdir="northampton")
+library(macleish)
+```
