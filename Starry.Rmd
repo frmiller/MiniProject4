@@ -48,13 +48,6 @@ macpark
 
 
 
-```{r}
-library(leaflet)
-leaflet(macpark) %>%
-  addTiles() %>%
-  addCircles(lng = 42.448013, lat = -72.680663, radius = 110) 
-```
-
 
 
 
