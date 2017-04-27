@@ -36,6 +36,7 @@ names(macleish_layers)
 ```
 
 ```{r}
+## circle around parking lot (1/2 mile)
 parking <- data.frame(lat = 42.448013, lon = -72.680663)
 library(leaflet)
 macpark<-leaflet() %>%
