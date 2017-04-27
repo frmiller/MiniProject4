@@ -30,7 +30,33 @@ install.packages("macleish")
 library(macleish)
 ```
 
+
 ```{r}
-as.data.frame("macleish")
+names(macleish_layers)
 ```
+
+```{r}
+parking <- data.frame(lat = 42.448013, lon = -72.680663)
+library(leaflet)
+macpark<-leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng = ~lon, lat = ~lat, data = parking,
+    popup = "Parking Lot")%>%
+    addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672) 
+macpark
+```
+
+
+
+```{r}
+library(leaflet)
+leaflet(macpark) %>%
+  addTiles() %>%
+  addCircles(lng = 42.448013, lat = -72.680663, radius = 110) 
+```
+
+
+
+
+
 
