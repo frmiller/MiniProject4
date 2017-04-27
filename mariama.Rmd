@@ -4,27 +4,107 @@ author: "Mariama Jaiteh"
 date: "4/26/2017"
 output: html_document
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
+library(sp)
+library(macleish)
+library(tidyverse)
+library(rgeos)
+```
+# Load Contours Data
+```{r}
+url <- "http://wsgw.mass.gov/data/gispub/shape/contours5k/hp214.zip"
+download.file(url, destfile = basename(url))
+unzip("hp214.zip", exdir = "contours")
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+library(rgdal)
+dsn <- path.expand("contours")
+dsn
+list.files(dsn)
 ```
 
-## Including Plots
+```{r}
+ogrListLayers(dsn)
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+ogrInfo(dsn,layer="hp214")
+
+```
+
+```{r}
+m_contours <- readOGR(dsn, "hp214")
+summary(m_contours)
+```
+
+```{r}
+m_contours_data <- m_contours %>%
+  as.data.frame()
+```
+
+## Work with Macleish data
+```{r}
+plot(macleish_layers[["boundary"]])
+```
+
+```{r}
+names(macleish_layers)
+```
+
+```{r}
+##Just plotting all the datasets we need to use to see how they look.
+plot(macleish_layers[["trails"]],col="blue")
+plot(macleish_layers[["boundary"]],add = TRUE)
+plot(macleish_layers[["buildings"]],add=TRUE)
+plot(macleish_layers[["research"]],add=TRUE,col="pink")
+plot(macleish_layers[["wetlands"]],add=TRUE,col="red")
+plot(macleish_layers[["challenge_courses"]],add=TRUE,col="purple")
+plot(macleish_layers[["streams"]],add=TRUE,col="orange")
+
+
+```
+
+```{r}
+proj4string(macleish_layers[["challenge_courses"]])
+proj4string(macleish_layers[["research"]])
+proj4string(camp)
+
+
+```
+
+```{r}
+macleish_layers[["trails"]] %>%
+  gLength(byid = TRUE)
+
+
+```
+
+```{r}
+plot(macleish_layers[["challenge_courses"]],col="purple")
+
+```
+##Covert CSV into shapefile
+##Plot the campsites and parking lot.
+```{r}
+camp <- read_csv("~/Desktop/camp.csv")
+coordinates(camp)<-~Longitude+Latitude # whatever the equivalent is in your 
+
+```
+
+```{r}
+#plot(camp)
+proj4string(camp) = CRS("+init=epsg:4326")
+```
+
+```{r}
+plot(camp,col="red")
+```
+```{r}
+bbox(camp)
+
+```
+
+
+
