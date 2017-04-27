@@ -23,6 +23,58 @@ macleish_layers[["streams"]] %>%
   spTransform("+init=epsg:4326")
 ```
 
+```{r}
+url <- "http://wsgw.mass.gov/data/gispub/shape/contours5k/hp214.zip"
+download.file(url, destfile = basename(url))
+unzip("hp214.zip", exdir = "contours")
+```
+
+```{r}
+library(rgdal)
+dsn <- path.expand("contours")
+dsn
+list.files(dsn)
+```
+
+```{r}
+ogrListLayers(dsn)
+
+```
+
+```{r}
+ogrInfo(dsn,layer="hp214")
+
+```
+
+```{r}
+m_contours <- readOGR(dsn, "hp214")
+summary(m_contours)
+```
+
+```{r}
+m_contours_data <- m_contours %>%
+  as.data.frame()
+```
+
+## Work with Macleish data
+```{r}
+plot(macleish_layers[["boundary"]])
+```
+
+```{r}
+names(macleish_layers)
+```
+
+```{r}
+##Just plotting all the datasets we need to use to see how they look.
+plot(macleish_layers[["trails"]],col="blue")
+plot(macleish_layers[["boundary"]],add = TRUE)
+plot(macleish_layers[["buildings"]],add=TRUE)
+plot(macleish_layers[["research"]],add=TRUE,col="pink")
+plot(macleish_layers[["wetlands"]],add=TRUE,col="red")
+plot(macleish_layers[["challenge_courses"]],add=TRUE,col="purple")
+plot(macleish_layers[["streams"]],add=TRUE,col="orange")
+
 
 
 
