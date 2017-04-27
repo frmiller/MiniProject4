@@ -52,10 +52,6 @@ plot(challenge)
 plot(research)
 ```
 
-```{r}
-library(readr)
-camp <- read_csv("~/MiniProject4/camp.csv")
-View(camp)
-```
+
 
 
