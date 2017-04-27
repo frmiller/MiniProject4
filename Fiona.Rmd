@@ -16,11 +16,13 @@ library(sp)
 ```
 
 ```{r}
-
+proj4_aea <- "+proj=aea +lat_1=29.5 +lat_2=42.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+macleish_layers[["streams"]] %>%
+  spTransform(CRS(proj4_aea)) %>%
+  gBuffer(width = 30.48) %>%
+  spTransform("+init=epsg:4326")
 ```
 
 
-```{r}
-## buffer around the stream
-```
+
 
