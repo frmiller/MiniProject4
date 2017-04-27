@@ -16,65 +16,41 @@ library(sp)
 ```
 
 ```{r}
+## Buffer for stream (200 ft)
 proj4_aea <- "+proj=aea +lat_1=29.5 +lat_2=42.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
-macleish_layers[["streams"]] %>%
+stream <- macleish_layers[["streams"]] %>%
   spTransform(CRS(proj4_aea)) %>%
-  gBuffer(width = 30.48) %>%
+  gBuffer(width = 60.96) %>%
   spTransform("+init=epsg:4326")
 ```
 
 ```{r}
-url <- "http://wsgw.mass.gov/data/gispub/shape/contours5k/hp214.zip"
-download.file(url, destfile = basename(url))
-unzip("hp214.zip", exdir = "contours")
+## Buffer on Challenge courses (500 ft)
+challenge <- macleish_layers[["challenge_courses"]] %>%
+  spTransform(CRS(proj4_aea)) %>%
+  gBuffer(width = 152.4) %>%
+  spTransform("+init=epsg:4326")
 ```
 
 ```{r}
-library(rgdal)
-dsn <- path.expand("contours")
-dsn
-list.files(dsn)
+## Buffer on research projects (500ft)
+research <- macleish_layers[["research"]] %>%
+  spTransform(CRS(proj4_aea)) %>%
+  gBuffer(width = 152.4) %>%
+  spTransform("+init=epsg:4326")
 ```
 
-```{r}
-ogrListLayers(dsn)
-
-```
-
-```{r}
-ogrInfo(dsn,layer="hp214")
-
-```
-
-```{r}
-m_contours <- readOGR(dsn, "hp214")
-summary(m_contours)
-```
-
-```{r}
-m_contours_data <- m_contours %>%
-  as.data.frame()
-```
-
-## Work with Macleish data
-```{r}
-plot(macleish_layers[["boundary"]])
-```
 
 ```{r}
 names(macleish_layers)
 ```
 
 ```{r}
-##Just plotting all the datasets we need to use to see how they look.
-plot(macleish_layers[["trails"]],col="blue")
-plot(macleish_layers[["boundary"]],add = TRUE)
-plot(macleish_layers[["buildings"]],add=TRUE)
-plot(macleish_layers[["research"]],add=TRUE,col="pink")
-plot(macleish_layers[["wetlands"]],add=TRUE,col="red")
-plot(macleish_layers[["challenge_courses"]],add=TRUE,col="purple")
-plot(macleish_layers[["streams"]],add=TRUE,col="orange")
-
+##Plotting all the buffers.
+plot(stream)
+plot(challenge)
+plot(research)
+```
 
 
 
