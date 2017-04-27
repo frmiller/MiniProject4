@@ -10,6 +10,7 @@ url<-"http://wsgw.mass.gov/data/gispub/shape/contours5k/hp214.zip"
 download.file(url,destfile=basename(url))
 unzip("hp214.zip",exdir="northampton")
 ```
+
 ```{r}
 library(rgdal)
 dsn<-path.expand("northampton")
@@ -21,4 +22,15 @@ list.files(dsn)
 orgListLayers(dsn)
 ```
 
+```{r}
+install.packages("macleish")
+```
+
+```{r}
+library(macleish)
+```
+
+```{r}
+as.data.frame("macleish")
+```
 
