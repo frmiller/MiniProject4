@@ -1,0 +1,110 @@
+---
+title: "mariama"
+author: "Mariama Jaiteh"
+date: "4/26/2017"
+output: html_document
+---
+```{r}
+library(sp)
+library(macleish)
+library(tidyverse)
+library(rgeos)
+```
+# Load Contours Data
+```{r}
+url <- "http://wsgw.mass.gov/data/gispub/shape/contours5k/hp214.zip"
+download.file(url, destfile = basename(url))
+unzip("hp214.zip", exdir = "contours")
+```
+
+```{r}
+library(rgdal)
+dsn <- path.expand("contours")
+dsn
+list.files(dsn)
+```
+
+```{r}
+ogrListLayers(dsn)
+
+```
+
+```{r}
+ogrInfo(dsn,layer="hp214")
+
+```
+
+```{r}
+m_contours <- readOGR(dsn, "hp214")
+summary(m_contours)
+```
+
+```{r}
+m_contours_data <- m_contours %>%
+  as.data.frame()
+```
+
+## Work with Macleish data
+```{r}
+plot(macleish_layers[["boundary"]])
+```
+
+```{r}
+names(macleish_layers)
+```
+
+```{r}
+##Just plotting all the datasets we need to use to see how they look.
+plot(macleish_layers[["trails"]],col="blue")
+plot(macleish_layers[["boundary"]],add = TRUE)
+plot(macleish_layers[["buildings"]],add=TRUE)
+plot(macleish_layers[["research"]],add=TRUE,col="pink")
+plot(macleish_layers[["wetlands"]],add=TRUE,col="red")
+plot(macleish_layers[["challenge_courses"]],add=TRUE,col="purple")
+plot(macleish_layers[["streams"]],add=TRUE,col="orange")
+
+
+```
+
+```{r}
+proj4string(macleish_layers[["challenge_courses"]])
+proj4string(macleish_layers[["research"]])
+proj4string(camp)
+
+
+```
+
+```{r}
+macleish_layers[["trails"]] %>%
+  gLength(byid = TRUE)
+
+
+```
+
+```{r}
+plot(macleish_layers[["challenge_courses"]],col="purple")
+
+```
+##Covert CSV into shapefile
+##Plot the campsites and parking lot.
+```{r}
+camp <- read_csv("~/Desktop/camp.csv")
+coordinates(camp)<-~Longitude+Latitude # whatever the equivalent is in your 
+
+```
+
+```{r}
+#plot(camp)
+proj4string(camp) = CRS("+init=epsg:4326")
+```
+
+```{r}
+plot(camp,col="red")
+```
+```{r}
+bbox(camp)
+
+```
+
+
+
