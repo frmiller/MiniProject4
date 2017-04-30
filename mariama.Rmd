@@ -118,6 +118,7 @@ plot(m_contours_el)
 ```
 
 ```{r}
+## blue, black and white
 leaflet() %>%
   addTiles() %>%
   addPolygons(data = macleish_layers[["buildings"]], 
