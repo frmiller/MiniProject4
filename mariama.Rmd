@@ -118,6 +118,7 @@ plot(m_contours_el)
 ```
 
 ```{r}
+## blue, black and white
 leaflet() %>%
   addTiles() %>%
   addPolygons(data = macleish_layers[["buildings"]], 
@@ -133,4 +134,9 @@ leaflet() %>%
   addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
 ```
 
+<<<<<<< HEAD
 In white radius blue stream and black boundary. Not in brown buildings, purple research, yellow challenge courses. In all forest except the two forest types of the other two campsites
+=======
+In white radius blue stream and black boundary. Not in buildings, research, challenge courses. In all forest except the two forest types of the other two campsites
+
+>>>>>>> 8117756d9a7fe1c78f51ddbc278bedd6b0bddf40
