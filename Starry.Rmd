@@ -10,6 +10,12 @@ url<-"http://wsgw.mass.gov/data/gispub/shape/contours5k/hp214.zip"
 download.file(url,destfile=basename(url))
 unzip("hp214.zip",exdir="northampton")
 ```
+```{r, message = FALSE}
+library(macleish)
+library(leaflet)
+library(rgeos)
+library(sp)
+```
 
 ```{r}
 library(rgdal)
@@ -36,7 +42,6 @@ names(macleish_layers)
 ```
 
 ```{r}
-## circle around parking lot (1/2 mile)
 parking <- data.frame(lat = 42.448013, lon = -72.680663)
 library(leaflet)
 macpark<-leaflet() %>%
