@@ -65,7 +65,6 @@ stream <- macleish_layers[["streams"]] %>%
   spTransform(CRS(proj4_aea)) %>%
   gBuffer(width = 60.96) %>%
   spTransform("+init=epsg:4326")
-
 ```
 
 ```{r}
