@@ -127,20 +127,10 @@ leaflet() %>%
               weight = 1, fillOpacity = 0.2, popup = ~ Sheet1__Na, color = "green") %>%
   addMarkers(lng = ~long, lat = ~lat, data = sites,
     popup = ~name)  %>%
-<<<<<<< HEAD
   addPolygons(data = stream, color = "blue") %>%
   addPolygons(data = research, color = "purple") %>%
   addPolygons(data = macleish_layers[["boundary"]], color = "black") %>%
   addPolygons(data = challenge, color = "yellow") %>%
   addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
 
- 
-
-=======
-  addPolygons(data = stream) %>%
-  addPolygons(data = research) %>%
-  addPolygons(data = macleish_layers[["boundary"]]) %>%
-  addPolygons(data = challenge) %>%
-  addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="green")
->>>>>>> c2665c30663bac75ef624e0d09492e5583fafb6c
 ```
