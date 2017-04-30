@@ -11,6 +11,7 @@ library(macleish)
 library(tidyverse)
 library(rgeos)
 library(rgdal)
+library(leaflet)
 
 ```
 # Load 10'contour elevation data
