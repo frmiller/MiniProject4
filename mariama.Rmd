@@ -131,5 +131,4 @@ leaflet() %>%
   addPolygons(data = macleish_layers[["boundary"]], color = "black") %>%
   addPolygons(data = challenge, color = "yellow") %>%
   addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
-
 ```
