@@ -40,17 +40,29 @@ library(macleish)
 ```{r}
 names(macleish_layers)
 ```
-## add circle to parking lot
+
 ```{r}
-parking <- data.frame(lat = 42.448013, lon = -72.680663)
-library(leaflet)
-macpark<-leaflet() %>%
+leaflet() %>%
   addTiles() %>%
-  addMarkers(lng = ~lon, lat = ~lat, data = parking,
-    popup = "Parking Lot")%>%
-    addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672) 
-macpark
+  addPolygons(data = macleish_layers[["buildings"]], 
+              weight = 1, popup = ~ name) %>%
+  addPolygons(data = macleish_layers[["forests"]], 
+              weight = 1, fillOpacity = 0.2, popup = ~ Sheet1__Na) %>%
+  addMarkers(lng = ~long, lat = ~lat, data = sites,
+    popup = ~name) %>%
+  addPolygons(data = challenge) %>%
+  addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="green") %>%
+  addPolygons(data= research)
 ```
+```{r}
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%
+  addPolylines(data = macleish_layers[["streams"]], 
+               weight = 1, color = "red") %>%
+  addPolygons(data = stream) 
+```
+
 
 
 
