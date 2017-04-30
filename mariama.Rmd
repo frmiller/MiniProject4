@@ -130,15 +130,6 @@ leaflet() %>%
   addPolygons(data = research, color = "purple") %>%
   addPolygons(data = macleish_layers[["boundary"]], color = "black") %>%
   addPolygons(data = challenge, color = "yellow") %>%
-<<<<<<< HEAD
-  addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")%>%
-  addPolygons(data = stream) %>%
-  addPolygons(data = research) %>%
-  addPolygons(data = macleish_layers[["boundary"]]) %>%
-  addPolygons(data = challenge) %>%
-  addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="green")
-=======
   addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
 
->>>>>>> b2daa2e6cd8194fac124c6898a54a5ab1897c83bl
 ```
