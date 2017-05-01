@@ -134,7 +134,8 @@ leaflet() %>%
   addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
 ```
 ```{r}
-gIntersection(stream, macleish_layers[["boundary"]], byid=TRUE)
+a<-gIntersection(stream, macleish_layers[["boundary"]], byid=TRUE)
+plot(a)
 ```
 
 ```{r}
@@ -163,7 +164,7 @@ library(rgeos)
 ```
 
 ```{r}
-gIntersection(polyblue, polyblack@proj4string, unaryUnion_if_byid_false=FALSE)
+gIntersection(polyblue, polyblack, unaryUnion_if_byid_false=FALSE)
 ```
 
 
