@@ -1,6 +1,6 @@
 ---
 title: "Starry"
-author: "s"
+author: "starry"
 date: "4/26/2017"
 output: html_document
 ---
