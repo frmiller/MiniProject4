@@ -134,18 +134,40 @@ leaflet() %>%
   addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
 ```
 ```{r}
+gIntersection(stream, macleish_layers[["boundary"]], byid=TRUE)
+```
+
+```{r}
 polywhite<- leaflet() %>%
   addTiles() %>%
 addMarkers(lng = ~long, lat = ~lat, data = sites)  %>%
   addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
+polywhite
 
 polyblue<-leaflet() %>%
   addTiles() %>%
     addMarkers(lng = ~long, lat = ~lat, data = sites)  %>%
   addPolygons(data = stream, color = "blue")
+polyblue
 
-bluewhite<-intersect(polyblue,polywhite)
+polyblack<-leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng = ~long, lat = ~lat, data = sites,
+    popup = ~name)  %>%
+  addPolygons(data = macleish_layers[["boundary"]], color = "black") 
+polyblack
+```
 
+```{r}
+library(rgeos)
+```
+
+```{r}
+gIntersection(polyblue, polyblack@proj4string, unaryUnion_if_byid_false=FALSE)
+```
+
+
+```{R}
 polyblack<-leaflet() %>%
   addTiles() %>%
   addMarkers(lng = ~long, lat = ~lat, data = sites,
