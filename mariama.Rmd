@@ -1,6 +1,6 @@
 ---
 title: "mariama"
-author: "Mariama Jaiteh"
+author: "Mariama Jaiteh, Fiona Miller, Starry Zhou"
 date: "4/26/2017"
 output: html_document
 ---
@@ -11,51 +11,57 @@ library(macleish)
 library(tidyverse)
 library(rgeos)
 library(rgdal)
+library(dplyr)
 
 ```
-# Load 10'contour elevation data
+# 10’ contour elevation data
 ```{r}
-url <- "http://wsgw.mass.gov/data/gispub/shape/contours5k/hp214.zip"
+# Download terrain data for Whatley
+url <- "http://wsgw.mass.gov/data/gispub/shape/contours5k/hp337.zip"
 download.file(url, destfile = basename(url))
-unzip("hp214.zip", exdir = "contours")
-dsn <- path.expand("contours")
+unzip("hp337.zip", exdir = "whately_contours")
+
+# Load and transform
+whately_GIS_data <- path.expand("whately_contours")
+whately_contours <- readOGR(whately_GIS_data, "hp337") %>%
+  spTransform(CRS("+init=epsg:4326"))
 
 ```
-#Store elevation as SPH and Store as data frame
+
 ```{r}
-m_contours <- readOGR(dsn, "hp214")
-m_contours_data <- m_contours %>%
-  as.data.frame()
+# Download terrain data for Conway
+url <- "http://wsgw.mass.gov/data/gispub/shape/contours5k/hp68.zip"
+download.file(url, destfile = basename(url))
+unzip("hp68.zip", exdir = "conway_contours")
+
+# Load and transform
+conway_GIS_data <- path.expand("conway_contours")
+conway_contours <- readOGR(conway_GIS_data, "hp68") %>%
+  spTransform(CRS("+init=epsg:4326"))
 ```
+
 ```{r}
-m_contours_el <- spTransform(m_contours,   
-                             proj4string(macleish_layers[["boundary"]]))
+# Merge the contours for both towns, then intersect with the boundary of Macleish
+macleish_contours <-
+  gUnion(conway_contours, whately_contours) %>%
+  gIntersection(macleish_layers[['boundary']])
+
+# They're huuuuuge, so let's delete the rest 
+# of the contours now that we have what we want
+remove(whately_contours, conway_contours)
 
 ```
 
-# Macleish Eleavation
 ```{r}
-##We only want the Macleish elevation data
-mac_elevation <- gIntersects(macleish_layers[["boundary"]], m_contours_el)
-
+# What happens when you intersect lines?
+trail_points <- macleish_contours %>%
+  gIntersection(macleish_layers[['trails']])
 ```
 
-#Campsites
+# Campsites
 ```{r}
-sites = data.frame( name = c("Group Campsite","Remote Campsite","Parking"), lat = c(42.450976,42.458570,42.448013),long = c(-72.678154,-72.674732,-72.680663))
+sites = data.frame( name = c("Group Campsite","Remote Campsite","Parking"), lat = c(42.450976,42.458570,42.448013),long = c(-72.678154,-72.674732,-72.684732))
 ```
-
-#plot
-```{r}
-leaflet() %>%
-  addTiles() %>%
-  addPolygons(data = macleish_layers[["buildings"]]) %>%
-  addMarkers(lng = ~long, lat = ~lat, data = sites,
-    popup = ~name)
-  
-  
-```
-
 
 # Buffer
 ```{r}
@@ -65,6 +71,7 @@ stream <- macleish_layers[["streams"]] %>%
   spTransform(CRS(proj4_aea)) %>%
   gBuffer(width = 60.96) %>%
   spTransform("+init=epsg:4326")
+
 ```
 
 ```{r}
@@ -87,8 +94,10 @@ research <- macleish_layers[["research"]] %>%
 boundaries_aea <- macleish_layers[["boundary"]] %>%
   spTransform(CRS(proj4_aea))
 ```
-#plot
+
+# plot
 ```{r}
+#Plotting the streams --not needed after everything is finished.
 library(leaflet)
 leaflet() %>%
   addTiles() %>%
@@ -96,11 +105,10 @@ leaflet() %>%
                weight = 1, color = "black") %>%
   addPolygons(data = stream) 
 
-
 ```
 
-
 ```{r}
+## Use as a reference for Forest type.
 leaflet() %>%
   addTiles() %>%
   addPolygons(data = macleish_layers[["buildings"]], 
@@ -111,10 +119,6 @@ leaflet() %>%
     popup = ~name) %>%
   addPolygons(data = challenge) 
 
-```
-
-```{r}
-plot(m_contours_el)
 ```
 
 ```{r}
@@ -131,11 +135,15 @@ leaflet() %>%
   addPolygons(data = research, color = "purple") %>%
   addPolygons(data = macleish_layers[["boundary"]], color = "black") %>%
   addPolygons(data = challenge, color = "yellow") %>%
-  addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
+  addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white") %>%
+  addPolylines(data = macleish_contours, weight = 1, color = "black") %>%
+  addPolylines(data = macleish_layers[["trails"]], weight = 3, color = "red") %>%
+  addCircleMarkers(data = trail_points, radius = 2, color = "red") 
 
-intersect(color="blue","black","white")
+
+#intersect(color="blue","black","white") -- This doesn't seem to run on my computer. It gives me an error :
+#Error in intersect(color = "blue", "black", "white") : 
+  #unused argument (color = "blue")
 ```
 
-
 In white radius blue stream and black boundary. Not in brown buildings, purple research, yellow challenge courses. In all forest except the two forest types of the other two campsites
-
