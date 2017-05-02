@@ -147,6 +147,9 @@ leaflet() %>%
 ```
 ## rightest, vermal pool sedge meadow
 ```{r}
+map.on('click', function (e) {
+    coords= e.latlng.lat + ", " + e.latlng.lng;
+});
 leaflet() %>%
   addTiles() %>%
     addMarkers(lng = ~long, lat = ~lat, data = sites,
