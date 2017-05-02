@@ -60,7 +60,7 @@ trail_points <- macleish_contours %>%
 
 # Campsites
 ```{r}
-sites = data.frame( name = c("Group Campsite","Remote Campsite","Parking"), lat = c(42.450976,42.458570,42.448013),long = c(-72.678154,-72.674732,-72.684732))
+sites = data.frame( name = c("Group Campsite","Remote Campsite","Parking"), lat = c(42.450976,42.458570,42.448013),long = c(-72.678154,-72.674732,-72.680663))
 ```
 
 # Buffer
