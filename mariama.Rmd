@@ -41,13 +41,9 @@ conway_contours <- readOGR(conway_GIS_data, "hp68") %>%
 ```
 
 ```{r}
-# Merge the contours for both towns, then intersect with the boundary of Macleish
 macleish_contours <-
   gUnion(conway_contours, whately_contours) %>%
   gIntersection(macleish_layers[['boundary']])
-
-# They're huuuuuge, so let's delete the rest 
-# of the contours now that we have what we want
 remove(whately_contours, conway_contours)
 
 ```
@@ -128,7 +124,8 @@ leaflet() %>%
   addPolygons(data = macleish_layers[["buildings"]], 
               weight = 1, popup = ~ name, color = "brown") %>%
   addPolygons(data = macleish_layers[["forests"]], 
-              weight = 1, fillOpacity = 0.2, popup = ~ Sheet1__Na, color = "green") %>%
+              leaflet()%>%
+                weight = 1, fillOpacity = 0.2, popup = ~ Sheet1__Na, color = "green") %>%
   addMarkers(lng = ~long, lat = ~lat, data = sites,
     popup = ~name)  %>%
   addPolygons(data = stream, color = "blue") %>%
@@ -142,9 +139,6 @@ leaflet() %>%
 ```
 ## rightest, vermal pool sedge meadow
 ```{r}
-map.on('click', function (e) {
-    coords= e.latlng.lat + ", " + e.latlng.lng;
-});
 leaflet() %>%
   addTiles() %>%
     addMarkers(lng = ~long, lat = ~lat, data = sites,
@@ -153,3 +147,18 @@ leaflet() %>%
               weight = 1, fillOpacity = 0.2, popup = ~ Sheet1__Na, color = "green") 
 ```
 In white radius blue stream and black boundary. Not in brown buildings, purple research, yellow challenge courses. In all forest except the two forest types of the other two campsites
+
+```{r}
+forestnames<-as.data.frame(macleish_layers[["forests"]]$Sheet1__Na)
+vernal<-forestnames%>% 
+  filter(macleish_layers[["forests"]]$Sheet1__Na=="Vernal Pool Sedge Meadow")
+vernal
+```
+
+```{r}
+leaflet() %>%
+  addTiles() %>%
+    addMarkers(lng = ~long, lat = ~lat, data = sites,
+    popup = ~name)%>%
+addMarkers(lat = 42.454773,lng=-72.6776975)
+```
