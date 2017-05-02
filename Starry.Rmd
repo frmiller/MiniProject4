@@ -95,8 +95,6 @@ leaflet() %>%
   addPolylines(data = macleish_layers[["streams"]], 
                weight = 1, color = "black") %>%
   addPolygons(data = stream) 
-
-
 ```
 
 
@@ -113,9 +111,6 @@ leaflet() %>%
 
 ```
 
-```{r}
-plot(m_contours_el)
-```
 
 ```{r}
 ## blue, black and white
@@ -133,33 +128,19 @@ leaflet() %>%
   addPolygons(data = challenge, color = "yellow") %>%
   addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
 ```
+
+rightest, vermal pool sedge meadow
 ```{r}
-a<-gIntersection(stream, macleish_layers[["boundary"]], byid=TRUE)
-plot(a)
+leaflet() %>%
+  addTiles() %>%
+    addMarkers(lng = ~long, lat = ~lat, data = sites,
+    popup = ~name) %>%
+  addPolygons(data = macleish_layers[["forests"]], 
+              weight = 1, fillOpacity = 0.2, popup = ~ Sheet1__Na, color = "green") 
 ```
-
-```{r}
-polywhite<- leaflet() %>%
-  addTiles() %>%
-addMarkers(lng = ~long, lat = ~lat, data = sites)  %>%
-  addCircles(lat = 42.448013, lng = -72.680663, radius = 804.672,color="white")
-polywhite
-
-polyblue<-leaflet() %>%
-  addTiles() %>%
-    addMarkers(lng = ~long, lat = ~lat, data = sites)  %>%
-  addPolygons(data = stream, color = "blue")
-polyblue
-
-polyblack<-leaflet() %>%
-  addTiles() %>%
-  addMarkers(lng = ~long, lat = ~lat, data = sites,
-    popup = ~name)  %>%
-  addPolygons(data = macleish_layers[["boundary"]], color = "black") 
-polyblack
-```
-
-```{r}
+  
+  
+```{R}
 library(rgeos)
 ```
 
@@ -199,7 +180,7 @@ range<-setdiff(exclude,threecolors)
 range
 ```
 
-In white radius blue stream and black boundary. Not in buildings, research, challenge courses. In all forest except the two forest types of the other two campsites
+In white radius blue stream and black boundary. Not in buildings, research, challenge courses. In all forest except the two forest types of the other two campsites (Old Field White Pine Forest, Old Field White Pine Forest)
 
 
 

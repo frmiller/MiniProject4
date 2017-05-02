@@ -52,6 +52,4 @@ plot(challenge)
 plot(research)
 ```
 
-werrrrrrrrrrrrwerwerwerwerwrwerewr
-
 
