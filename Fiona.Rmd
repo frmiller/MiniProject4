@@ -52,10 +52,6 @@ plot(challenge)
 plot(research)
 ```
 
-<<<<<<< HEAD
-=======
-
-
 
 
 Connect to Macleish data
@@ -102,6 +98,4 @@ remove(whately_contours, conway_contours)
 # What happens when you intersect lines?
 trail_points <- macleish_contours %>%
   gIntersection(macleish_layers[['trails']])
-
->>>>>>> 9eaaeb5b246dde2394004a22d9bca7ec8453fc03
 
